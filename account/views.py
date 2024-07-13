@@ -19,7 +19,7 @@ def register(request):
             new_user.set_password(form.cleaned_data['password'])
             new_user.save()
             login(request, new_user)
-            return redirect('dashboard')
+            return redirect('dashboard.html')
     else:
         form = UserRegistrationForm()
     return render(request, 'register.html', {'form': form})
