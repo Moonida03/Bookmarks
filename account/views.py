@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
 from .models import Profile
+from django.contrib import messages
 
 
 @login_required(login_url='login')
@@ -21,7 +22,10 @@ def register(request):
             new_user.save()
             Profile.objects.create(user=new_user)
             login(request, new_user)
+            messages.success(request, 'Registration successful! You are now logged in.')
             return redirect('dashboard.html')
+        else:
+            messages.error(request, 'Registration failed. Please check your form and try again.')
     else:
         form = UserRegistrationForm()
     return render(request, 'register.html', {'form': form})
@@ -35,7 +39,10 @@ def edit(request):
         if form.is_valid() and profile_form.is_valid():
             form.save()
             profile_form.save()
+            messages.success(request, 'Profile updated successfully.')
             return redirect('dashboard.html')
+        else:
+            messages.error(request, 'Profile update failed. Please check your form and try again.')
     else:
         form = UserEditForm(instance=request.user.profile, data=request)
         profile_form = ProfileEditForm(instance=request.user.profile, data=request)
