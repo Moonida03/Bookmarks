@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
@@ -52,6 +52,7 @@ def user_login(request):
 
 @login_required(login_url='login')
 def edit(request):
+    profile = get_object_or_404(Profile, user=request.user)
     if request.method == 'POST':
         form = UserEditForm(instance=request.user, data=request.POST)
         profile_form = ProfileEditForm(instance=request.user.profile, data=request.POST, files=request.FILES)
@@ -59,12 +60,12 @@ def edit(request):
             form.save()
             profile_form.save()
             messages.success(request, 'Profile updated successfully.')
-            return redirect('dashboard.html')
+            return redirect('dashboard')
         else:
             messages.error(request, 'Profile update failed. Please check your form and try again.')
     else:
-        form = UserEditForm(instance=request.user.profile, data=request)
-        profile_form = ProfileEditForm(instance=request.user.profile, data=request)
+        form = UserEditForm(instance=request.user)
+        profile_form = ProfileEditForm(instance=profile)
     return render(request, 'edit.html', {'user_form': form, 'profile_form': profile_form})
 
 
