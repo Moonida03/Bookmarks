@@ -55,7 +55,7 @@ def edit(request):
     profile = get_object_or_404(Profile, user=request.user)
     if request.method == 'POST':
         form = UserEditForm(instance=request.user, data=request.POST)
-        profile_form = ProfileEditForm(instance=request.user.profile, data=request.POST, files=request.FILES)
+        profile_form = ProfileEditForm(instance=profile, data=request.POST, files=request.FILES)
         if form.is_valid() and profile_form.is_valid():
             form.save()
             profile_form.save()

@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-19z-)3156n%q3wo)m5yio2hj=ch2vco3+s52kf*8b8q#60ol%*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['bookmarks.com', '127.0.0.1', ]
 
 # Application definition
 
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'account.authentication.EmailAuthBackend',
+    'social_core.backends.google.GoogleOAuth2',
 ]
 
 MIDDLEWARE = [
@@ -70,6 +71,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -151,3 +154,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '35535895998-n7f083icp018bhsr95eqaeu33qa181af.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+SOCIAL_AUTH_URL_NAMESPACE = 'social'

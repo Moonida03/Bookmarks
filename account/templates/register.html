@@ -8,4 +8,5 @@
 {% csrf_token %}
 <p><input type="submit" value="Create my account"></p>
 </form>
+    <a href="{% url "social:begin" "google-oauth2" %}">Google+</a>
 {% endblock %}
